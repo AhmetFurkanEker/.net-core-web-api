@@ -1,0 +1,205 @@
+public interface IEntityService<T>
+{
+    T Get(int id);
+    List<T> GetAll();
+    void Create(T entity);
+    void Update(T entity);
+    void Delete(int id);
+}
+
+public class EntityService<T> : IEntityService<T>
+{
+    private IRepository<T> _repository;
+
+    public EntityService(IRepository<T> repository)
+    {
+        _repository = repository;
+    }
+
+    public T Get(int id)
+    {
+        return _repository.Get(id);
+    }
+
+    public List<T> GetAll()
+    {
+        return _repository.GetAll();
+    }
+
+    public void Create(T entity)
+    {
+        _repository.Create(entity);
+    }
+
+    public void Update(T entity)
+    {
+        _repository.Update(entity);
+    }
+
+    public void Delete(int id)
+    {
+        _repository.Delete(id);
+    }
+}
+
+public interface IUserService : IEntityService<User>
+{
+    List<User> GetUsersWithWatchHistory(int userId);
+    void ClearWatchHistory(int userId);
+}
+
+public class UserService : EntityService<User>, IUserService
+{
+    private IWatchHistoryRepository _watchHistoryRepository;
+
+    public UserService(IUserRepository userRepository, IWatchHistoryRepository watchHistoryRepository)
+        : base(userRepository)
+    {
+        _watchHistoryRepository = watchHistoryRepository;
+    }
+
+    public List<User> GetUsersWithWatchHistory(int userId)
+    {
+        // Kullanıcıları izleme geçmişiyle birlikte almak için gerekli işlemler
+    }
+
+    public void ClearWatchHistory(int userId)
+    {
+        // Kullanıcının izleme geçmişini temizlemek için gerekli işlemler
+    }
+}
+
+public interface IMovieService : IEntityService<Movie>
+{
+    List<Movie> GetTopRatedMovies();
+}
+
+public class MovieService : EntityService<Movie>, IMovieService
+{
+    public MovieService(IMovieRepository movieRepository)
+        : base(movieRepository)
+    {
+    }
+
+    public List<Movie> GetTopRatedMovies()
+    {
+        // En çok oy alan filmleri almak için gerekli işlemler
+    }
+}
+
+public interface IWatchHistoryService : IEntityService<WatchHistory>
+{
+    List<WatchHistory> GetUserWatchHistory(int userId);
+    void AddToWatchHistory(int userId, int movieId);
+}
+
+public class WatchHistoryService : EntityService<WatchHistory>, IWatchHistoryService
+{
+    public WatchHistoryService(IWatchHistoryRepository watchHistoryRepository)
+        : base(watchHistoryRepository)
+    {
+    }
+
+    public List<WatchHistory> GetUserWatchHistory(int userId)
+    {
+        // Kullanıcının izleme geçmişini almak için gerekli işlemler
+    }
+
+    public void AddToWatchHistory(int userId, int movieId)
+    {
+        // İzleme geçmişine film eklemek için gerekli işlemler
+    }
+}
+
+public interface IRepository<T>
+{
+    T Get(int id);
+    List<T> GetAll();
+    void Create(T entity);
+    void Update(T entity);
+    void Delete(int id);
+}
+
+public class UserRepository : IRepository<User>
+{
+    public User Get(int id)
+    {
+        // Kullanıcıyı veritabanından almak için gerekli işlemler
+    }
+
+    public List<User> GetAll()
+    {
+        // Tüm kullanıcıları veritabanından almak için gerekli işlemler
+    }
+
+    public void Create(User entity)
+    {
+        // Kullanıcıyı veritabanına kaydetmek için gerekli işlemler
+    }
+
+    public void Update(User entity)
+    {
+        // Kullanıcıyı güncellemek için gerekli işlemler
+    }
+
+    public void Delete(int id)
+    {
+        // Kullanıcıyı silmek için gerekli işlemler
+    }
+}
+
+public class MovieRepository : IRepository<Movie>
+{
+    public Movie Get(int id)
+    {
+        // Filmi veritabanından almak için gerekli işlemler
+    }
+
+    public List<Movie> GetAll()
+    {
+        // Tüm filmleri veritabanından almak için gerekli işlemler
+    }
+
+    public void Create(Movie entity)
+    {
+        // Filmi veritabanına kaydetmek için gerekli işlemler
+    }
+
+    public void Update(Movie entity)
+    {
+        // Filmi güncellemek için gerekli işlemler
+    }
+
+    public void Delete(int id)
+    {
+        // Filmi silmek için gerekli işlemler
+    }
+}
+
+public class WatchHistoryRepository : IRepository<WatchHistory>
+{
+    public WatchHistory Get(int id)
+    {
+        // İzleme geçmişini veritabanından almak için gerekli işlemler
+    }
+
+    public List<WatchHistory> GetAll()
+    {
+        // Tüm izleme geçmişini veritabanından almak için gerekli işlemler
+    }
+
+    public void Create(WatchHistory entity)
+    {
+        // İzleme geçmişini veritabanına kaydetmek için gerekli işlemler
+    }
+
+    public void Update(WatchHistory entity)
+    {
+        // İzleme geçmişini güncellemek için gerekli işlemler
+    }
+
+    public void Delete(int id)
+    {
+        // İzleme geçmişini silmek için gerekli işlemler
+    }
+}
